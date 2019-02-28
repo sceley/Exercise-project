@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>History Project</title>
+    <style>
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 1200px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: center;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            list-style: none;
+            float: left;
+            width: 25%;
+        }
+
+        .btn-area {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>用户信息一览表</h1>
+        <div>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>用户ID</th>
+                        <th>用户类型</th>
+                        <th>用户姓名</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.id %></td>
+                        <td><%= user.userType %></td>
+                        <td><%= user.userName %></td>
+                        <td><button data-id="<%= user.id %>">详细</button></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+        <div id="detailInfo">
+
+        </div>
+
+        <script>
+            async function loadUser(userType, id) {
+                let url = '/';
+                if (userType == '普通用户') {
+                    url += 'edit';
+                } else {
+                    url += 'readOnly';
+                }
+                url = `${url}?id=${id}`;
+                const res = await fetch(url);
+                let text;
+                if (res.ok) {
+                    text = await res.text();
+                } else {
+                    text = "<h2>Not Found</h2>";
+                }
+                document.getElementById('detailInfo').innerHTML = text;
+            }
+        </script>
+
+        <script>
+            const tbody = document.getElementsByTagName("tbody")[0];
+            tbody.onclick = async (e) => {
+                const target = e.target;
+                if (target.nodeName != 'BUTTON') return null;
+                const trElement = target.parentElement.parentElement;
+                const userType = trElement.children[1].innerHTML;
+                const id = target.getAttribute('data-id');
+
+                await loadUser(userType, id);
+                const state = new Object();
+                state.id = id;
+                state.userType = userType;
+                if (userType == '普通用户') {
+                    history.pushState(state, null, `edit?id=${id}`);
+                } else {
+                    history.pushState(state, null, `readOnly?id=${id}`);
+                }
+            };
+            window.addEventListener('popstate', e => {
+                const state = e.state;
+                if (state) {
+                    loadUser(state.userType, state.id);
+                }
+            });
+        </script>
+    </div>
+</body>
+
+</html>

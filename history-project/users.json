@@ -1,0 +1,1 @@
+[{"id":"1","userName":"张三","mobile":"1111","email":"1111@email.com","userType":"普通用户"},{"id":"2","userName":"李四","mobile":"2222","email":"2222@email.com","userType":"普通用户"},{"id":"3","userName":"王五","mobile":"3333","email":"3333@email.com","userType":"普通用户"},{"id":"4","userType":"管理员","userName":"赵六","mobile":"4444","email":"4444@email.com"}]

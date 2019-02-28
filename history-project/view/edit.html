@@ -1,0 +1,32 @@
+<div>
+    <form action="/save" method="POST">
+        <ul>
+            <li>
+                <input type="hidden" name="id" value="<%= user.id %>">
+            </li>
+            <li>
+                <label for="">用户姓名</label>
+                <input name="userName" type="text" value="<%= user.userName %>">
+            </li>
+            <li>
+                <label for="">手机号码</label>
+                <input name="mobile" type="text" value="<%= user.mobile %>">
+            </li>
+            <li>
+                <label for="">Email</label>
+                <input name="email" type="text" value="<%= user.email %>">
+            </li>
+            <li>
+                <label for="">用户类型</label>
+                <select name="userType" value="<%= user.userType %>">
+                    <option value="普通用户">普通用户</option>
+                    <option value="管理员">管理员</option>
+                </select>
+            </li>
+        </ul>
+        <div class="btn-area">
+            <input type="submit" value="保存">
+            <input type="reset" value="清除">
+        </div>
+    </form>
+</div>
